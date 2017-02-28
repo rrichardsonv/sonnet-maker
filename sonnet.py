@@ -3,6 +3,7 @@ import sys
 import re
 import nltk
 import string
+import random
 from nltk.corpus import cmudict
 
 d = cmudict.dict()
@@ -32,8 +33,12 @@ def word_soup(data):
   return result
 
 def main():
-  # Get the name from the command line, using 'World' as a fallback.
-  # lines_tupple = ()
+  stuff = get_txt(_file_name)
+  test_text_list = word_soup(stuff)
+  max_range = len(test_text_list)
+  word_index = random.randrange(0,max_range,1)
+  lines_tupple = ()
+
   # sonnet = '''
   #         {}
   #         {}
@@ -54,8 +59,7 @@ def main():
   #         {}
 
   #       '''.format(*lines_tupple)
-  stuff = get_txt(_file_name)
-  print(word_soup(stuff))
+
 
 # This is the standard boilerplate that calls the main() function.
 
