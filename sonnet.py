@@ -2,19 +2,28 @@
 import sys
 import re
 import nltk
+import string
+from nltk.corpus import cmudict
+
+d = cmudict.dict()
+def nsyl(word):
+  if word != 'youre':
+    return [len(list(y for y in x if y[-1].isdigit())) for x in d[word.lower()]]
 
 _file_name = 'words.txt'
 
 def get_txt(file_name):
   with open(file_name,'r') as f:
-    data = ''.join(f.readlines())
+    s = ''.join(f.readlines())
+    data = re.sub(r'[^\w\s]','',s)
     return data
 
 def word_soup(data):
+  result = []
   raw_soup = nltk.word_tokenize(data)
-  for drop in raw_soup:
-    print(drop)
-
+  for noodle in raw_soup:
+    result = result + [(noodle, nsyl(noodle))]
+  return result
 
 def main():
   # Get the name from the command line, using 'World' as a fallback.
