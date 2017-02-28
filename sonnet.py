@@ -4,7 +4,7 @@ import sys
 
 def main():
   # Get the name from the command line, using 'World' as a fallback.
-  lines_tupple = ()
+  lines_tupple = ("Have", "you", "ever", "accidentally", "clicked", "the", "close", "button", "on", "your", "computer", "taking", "you", "to")
   sonnet = '''
           {0}
           {1}
@@ -24,7 +24,7 @@ def main():
           {12}
           {13}
 
-        '''.format("Have", "you", "ever", "accidentally", "clicked", "the", "close", "button", "on", "your", "computer", "taking", "you", "to")
+        '''.format(*lines_tupple)
   print(sonnet)
 
 # This is the standard boilerplate that calls the main() function.
