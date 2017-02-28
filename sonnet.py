@@ -7,15 +7,14 @@ from nltk.corpus import cmudict
 
 d = cmudict.dict()
 def nsyl(word):
-  if word != 'youre':
-    return [len(list(y for y in x if y[-1].isdigit())) for x in d[word.lower()]]
+  return [len(list(y for y in x if y[-1].isdigit())) for x in d.get(word.lower(),'')]
 
 _file_name = 'words.txt'
 
 def get_txt(file_name):
   with open(file_name,'r') as f:
     s = ''.join(f.readlines())
-    data = re.sub(r'[^\w\s]','',s)
+    data = re.sub(r'[^\w\s\']','',s)
     return data
 
 def word_soup(data):
@@ -49,7 +48,7 @@ def main():
 
   #       '''.format(*lines_tupple)
   stuff = get_txt(_file_name)
-  word_soup(stuff)
+  print(word_soup(stuff))
 
 # This is the standard boilerplate that calls the main() function.
 
