@@ -21,7 +21,14 @@ def word_soup(data):
   result = []
   raw_soup = nltk.word_tokenize(data)
   for noodle in raw_soup:
-    result = result + [(noodle, nsyl(noodle))]
+    syllables = nsyl(noodle)
+    if len(syllables) == 0:
+      syllables = 0
+    else:
+      syllables = syllables.pop()
+    entry = [(noodle, syllables)]
+    if result.count(entry) == 0:
+      result = result + entry
   return result
 
 def main():
