@@ -8,7 +8,7 @@ coin = (False,True)
 
 first_second_pronouns = (['i'],['you'],['we'])
 
-pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
+pos_categories = (['NN'],['NNS'],['NNP'],['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
 
 conj_helpers = {
   'VBG':(
@@ -157,6 +157,7 @@ def v_is_for_verb():
     if sample_list(coin):
       #fourth get conjugation options
       conj_tupple = conj_helpers[verb[0]]
+      # print(conj_tupple)
       #check for edge case -_-
       if len(conj_tupple) > 1:
       #sample options
@@ -164,8 +165,10 @@ def v_is_for_verb():
       else:
         helper_list = conj_tupple
       # combine helpers and base verb
-      helper_list += verb
-      return helper_list
+      # if verb[0] == 'VB':
+        # print(helper_list)
+      # += is DANGEROUS wow haha
+      return helper_list + verb
     else:
       return verb
   else:
