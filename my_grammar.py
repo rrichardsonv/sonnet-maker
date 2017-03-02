@@ -133,7 +133,11 @@ def get_obj():
     return obj
 
 
-
+def only_cap_no_lower(sentence):
+  sentence_list = sentence.split(' ')
+  first_word = sentence_list[0].capitalize()
+  sentence_list[0] = first_word
+  return ' '.join(sentence_list)
 
 def english_makes_no_sense(subject, verb, flag_for_check):
   if flag_for_check == -1:
@@ -223,7 +227,7 @@ def check_for_obj(verb):
 
 def build_indepedent_clause(svo_list):
   clause = ' '.join(svo_list) + sample_list(['.','?','!','...'])
-  return clause.capitalize()
+  return only_cap_no_lower(clause)
 
 def main():
   # test_for_check_for_obj()
