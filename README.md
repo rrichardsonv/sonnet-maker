@@ -1,7 +1,7 @@
 ### Sonnet Maker
 *****
 
-Builds sonnets from 2of12.txt ~supplied text file~ using nltk
+Builds sonnets from 2of12.txt ~~supplied text file~~ using nltk
 
 ### Goals
 The main goal of this project is becoming more familiar with python and the functionality of nltk.
@@ -22,6 +22,7 @@ The secondary goal has been to laugh at how bad computers are at poetry.
 ### Setup:
 
   >grammar_dictionary_builder.py
+  
   >grammar_dictionary_sorter.py (will take a little while)
   
 ### To Run:
@@ -29,7 +30,7 @@ The secondary goal has been to laugh at how bad computers are at poetry.
 
 
 ### Coming soon:
-  * ~Subjects to go with those predicates haha~
+  * ~~Subjects to go with those predicates haha~~
   * Actual Rhyming haha
   * Adjectives! Wow!
   * Adverbs! oOo!
