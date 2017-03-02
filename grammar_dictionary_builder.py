@@ -1,6 +1,10 @@
 import sys
+import os
+
+#builds the separate text files for the various gramatic word types
 
 extension = '.txt'
+path = './grammar_dict/'
 treebank_classifications =[
   'CC',#Coordinating conjunction
   'CD',#Cardinal number
@@ -39,9 +43,12 @@ treebank_classifications =[
   'WP$',#Possessive wh-pronoun
   'WRB']#Wh-adverb
 
+def make_the_dir():
+  os.makedirs('')
+
 def make_all_the_files():
   for code in treebank_classifications:
-    file = ''.join([code, extension])
+    file = ''.join([path, code, extension])
     print(''.join(["Creating ",file]))
     new = open(file, 'w')
     new.close()
