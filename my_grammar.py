@@ -1,26 +1,32 @@
 import random
 
+extension = '.txt'
+path = './grammar_dict/'
+
 verb_bases = (['VBG'], ['VBN'], ['VB'], ['VBD'], ['VBZ'])
-def sample_tupple(tupple):
-    return tupple[random.randrange(0,len(tupple),1)]
+def sample_list(list_of_something):
+    return list_of_something[random.randrange(0,len(list_of_something),1)]
 
 coin = (False,True)
 
-subject_type_dep = {
-  'i':{
-    'PC': 'am',
-    'DC': 'was'
-  },
-  'we':{
-    'PC': 'are',
-    'DC': 'were'
-  },
-  'you':{
-    'PC': 'are',
-    'DC': 'were'
-  }
-}
+# subject_type_dep = {
+#   'i':{
+#     'PC': 'am',
+#     'DC': 'was'
+#   },
+#   'we':{
+#     'PC': 'are',
+#     'DC': 'were'
+#   },
+#   'you':{
+#     'PC': 'are',
+#     'DC': 'were'
+#   }
+# }
 
+first_second_pronouns = ('i am','i was','you are','you were' 'we are', 'we were')
+
+pos_categories = ('NN','NNS','NNP','NNPS','PRP','VBG')
 
 conj_helpers = {
   'VBG':(
@@ -47,20 +53,41 @@ case_jank = {
   'VBG':True
 }
 
+case_jank_mk_two = {
+  'VBZ':True,
+  'VBD':True,
+  'MD':True
+}
+
+def determine_subj(first_verb):
+  if case_jank_mk_two.get(first_verb,False):
+    print('All options ok')
+  else:
+    print('We need first or second person')
+
+
+def get_words(word_list):
+  result = []
+  for word in word_list:
+    with open(''.join([path,word,extension]),'r') as f:
+      d = f.readlines()
+      result.append(''.join(sample_list(d)).strip())
+  return result
+
 def v_is_for_verb():
   #first pick a verb
-  # verb = sample_tupple(verb_bases)
-  verb = sample_tupple(verb_bases)
+  # verb = sample_list(verb_bases)
+  verb = sample_list(verb_bases)
   #second determine if it can be conjugated
   if case_jank.get(verb[0], False):
     #third flip a coin
-    if sample_tupple(coin):
+    if sample_list(coin):
       #fourth get conjugation options
       conj_tupple = conj_helpers[verb[0]]
       #check for edge case -_-
       if len(conj_tupple) > 1:
       #sample options
-        helper_list = sample_tupple(conj_tupple)
+        helper_list = sample_list(conj_tupple)
       else:
         helper_list = conj_tupple
       # combine helpers and base verb
@@ -73,7 +100,9 @@ def v_is_for_verb():
 
 
 def main():
-  return v_is_for_verb()
+  random_verbage = v_is_for_verb()
+  print(random_verbage)
+  return get_words(random_verbage)
 
 
 
