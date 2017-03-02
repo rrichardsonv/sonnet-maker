@@ -59,8 +59,8 @@ case_jank_mk_two = {
   'MD':True
 }
 
-def determine_subj(first_verb):
-  if case_jank_mk_two.get(first_verb,False):
+def determine_subj(first_verb_code):
+  if case_jank_mk_two.get(first_verb_code,False):
     print('All options ok')
   else:
     print('We need first or second person')
@@ -101,7 +101,9 @@ def v_is_for_verb():
 
 def main():
   random_verbage = v_is_for_verb()
-  print(random_verbage)
+  subject_indicator = random_verbage[0]
+  subj_code = determine_subj(subject_indicator)
+  # print(subj_code)
   return get_words(random_verbage)
 
 
