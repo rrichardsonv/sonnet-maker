@@ -8,7 +8,7 @@ coin = (False,True)
 
 first_second_pronouns = (['i'],['you'],['we'])
 
-pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
+pos_categories = (['NN'],['NNS'],['NNP'],['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
 
 conj_helpers = {
   'VBG':(

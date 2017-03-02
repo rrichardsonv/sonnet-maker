@@ -44,38 +44,43 @@ def main():
   # test_text_list = word_soup(stuff)
   # max_range = len(test_text_list)
   # word_index = random.randrange(0,max_range,1)
-  # lines_list = []
+  sonnet_lines = []
   line_len = 0
-  i = 0
-  while line_len != 10:
-    current_line = my_grammar.create_line()
-    print(''.join(['{}'.format(i),': ',current_line]))
-    line_len = word_soup(current_line)
-    i += 1
-  print(current_line)
+  # i = 0
+  while len(sonnet_lines) < 14:
+    line_len = 0
+    while line_len != 10:
+      current_line = my_grammar.create_line()
+      # print(''.join(['{}'.format(i),': ',current_line]))
+      line_len = word_soup(current_line)
+      # i += 1
+    sonnet_lines.append(current_line)
+
+  # print(sonnet_lines)
+  # print(current_line)
   # print(line_length)
 
-  # sonnet = '''
-  #         {}
-  #         {}
-  #         {}
-  #         {}
+  sonnet = '''
+          {}
+          {}
+          {}
+          {}
 
-  #         {}
-  #         {}
-  #         {}
-  #         {}
+          {}
+          {}
+          {}
+          {}
 
-  #         {}
-  #         {}
-  #         {}
-  #         {}
+          {}
+          {}
+          {}
+          {}
 
-  #         {}
-  #         {}
+          {}
+          {}
 
-  #       '''.format(*lines_tupple)
-
+        '''.format(*tuple(sonnet_lines))
+  print(sonnet)
 
 # This is the standard boilerplate that calls the main() function.
 
