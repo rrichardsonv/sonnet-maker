@@ -43,8 +43,8 @@ treebank_classifications =[
   'WP$',#Possessive wh-pronoun
   'WRB']#Wh-adverb
 
-def make_the_dir():
-  os.makedirs('')
+# def make_the_dir():
+#   os.makedirs('grammar_dict')
 
 def make_all_the_files():
   for code in treebank_classifications:
