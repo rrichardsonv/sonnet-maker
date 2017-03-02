@@ -1,4 +1,5 @@
 import random
+import string
 
 extension = '.txt'
 path = './grammar_dict/'
@@ -24,27 +25,35 @@ coin = (False,True)
 #   }
 # }
 
-first_second_pronouns = (['i','am'],['i','was'],['you', 'are'],['you','were'],['we','are'],['we','were'])
+# first_second_pronouns = (['i','am'],['i','was'],['you', 'are'],['you','were'],['we','are'],['we','were'])
+first_second_pronouns = (['i'],['you'],['we'])
 
 pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
 
 conj_helpers = {
   'VBG':(
     ['VBP'],
-    ['VBP', 'VBN'],
-    ['MD','VB'],
+    ['has', 'been'],
+    ['MD','be'],
     ['VBD'],
     ['MD'],
-    ['VBD', 'VBN']
+    ['had', 'been']
   ),
   'VBN':(
     ['VBP'],
-    ['MD', 'VB'],
-    ['VBD']
+    ['MD', 'have'],
+    ['had']
   ),
   'VB':(
     ['MD']
   )
+}
+
+helper_exceptions = {
+'have':True,
+'had':True,
+'been':True,
+'be':True
 }
 
 case_jank = {
@@ -63,26 +72,63 @@ ok_verbs = {
   'have':True,
   'be':True
 }
+not_ok_verbs = {
+  'keep':True
+}
+
+not_actually_verbs = { #sigh
+  'nosebleed': True,
+  'not a verb': True
+}
+
+en_pronoun_exceptions = {
+  'we':True,
+  'you':True,
+  'they':True
+}
+
+def english_makes_no_sense(subject,verb, flag_for_check):
+  if flag_for_check == -1:
+    return subject + verb
+  else:
+    return 'Gotta logic'
+
 
 def determine_subj(first_verb_code,first_verb):
-  if case_jank_mk_two.get(first_verb_code,False):
-    subj = get_words(sample_list(pos_categories))
-  else:
-    # print('We need first or second person')
-    if ok_verbs.get(first_verb,False):
-      subj = sample_list(first_second_pronouns)
+  subj = ['']
+  while subj[0] == '':
+    if case_jank_mk_two.get(first_verb_code,False):
+      choice = [first_verb_code]
+      # print(choice)
+      while (choice[0] == first_verb_code or not_ok_verbs.get(choice[0],False)):
+        choice = sample_list(pos_categories)
+      subj = get_words(choice)
     else:
-      subj = get_words(sample_list(pos_categories))
+      # print('We need first or second person')
+      if ok_verbs.get(first_verb,False):
+        subj = sample_list(first_second_pronouns)
+      else:
+        subj = get_words(sample_list(pos_categories))
   return subj
 
 
 def get_words(word_list):
   result = []
   for word in word_list:
-    with open(''.join([path,word,extension]),'r') as f:
-      #note: bug which returns empty string for subj ~1 in 30
-      d = f.readlines()
-      result.append(''.join(sample_list(d)).strip())
+    if helper_exceptions.get(word,False):
+      result.append(word)
+    else:
+      with open(''.join([path,word,extension]),'r') as f:
+        # print(word)
+        #note: bug which returns empty string for subj ~1 in 30
+        d = f.readlines()
+        if word.find('V') == 0:
+          word_choice = 'not a verb'
+          while not_actually_verbs.get(word_choice, False):
+            word_choice = sample_list(d)
+        else:
+          word_choice = sample_list(d)
+        result.append(''.join(word_choice).strip())
   return result
 
 def v_is_for_verb():
@@ -111,10 +157,16 @@ def v_is_for_verb():
 
 
 def main():
-  random_verbage = v_is_for_verb() 
+  random_verbage = v_is_for_verb()
+  flag_for_check = -1
+  if random_verbage.count('VBG') == 1:
+    flag_for_check = random_verbage.index('VBG') + 1
+  if random_verbage.count('VBN') == 1:
+    flag_for_check = random_verbage.index('VBN') + 1
   all_verbs = get_words(random_verbage)
   subj = determine_subj(random_verbage[0], all_verbs[0])
-  print(subj + all_verbs)
+  independent_clause = english_makes_no_sense(subj,all_verbs, flag_for_check)
+  print(independent_clause)
 
 
 
