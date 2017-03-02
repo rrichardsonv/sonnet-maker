@@ -17,9 +17,8 @@ oe_dict = {
   'MD':[],#Modal
   'NN':[],#Noun, singular or mass
   'NNS':[],#Noun, plural
-  'NNP':[],#Proper noun, singular
-  'NNPS':[],  #Proper noun, plural
-  'PDT':[],#Predeterminer
+  'NNP':['Lord Byron', "New Year's Day", 'Arbor Day', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Chicago'],#Proper noun, singular 
+  'NNPS':["George Washington's Birthdays", 'Independence Days', 'Lizs', 'Andy Warhols'],  #Proper noun, plural 'PDT':[],#Predeterminer
   'POS':[],#Possessive ending
   'PRP':[],#Personal pronoun
   'PRP$':[],  #Possessive pronoun
