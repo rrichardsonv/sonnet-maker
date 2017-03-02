@@ -3,24 +3,8 @@ import string
 
 extension = '.txt'
 path = './grammar_dict/'
-
 verb_bases = (['VBG'], ['VBN'], ['VB'], ['VBD'], ['VBZ'])
-def sample_list(list_of_something):
-    return list_of_something[random.randrange(0,len(list_of_something),1)]
-
 coin = (False,True)
-
-def test_for_check_for_obj():
-  test_one = ['is', 'uncorroborated', 'screenwriting']
-  test_two = ['has', 'screenwriting']
-
-  if check_for_obj(test_one):
-    print('positive case works')
-
-  if check_for_obj(test_two):
-    print('negative case does not work')
-  else:
-    print('negative case works')
 
 first_second_pronouns = (['i'],['you'],['we'])
 
@@ -28,62 +12,38 @@ pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
 
 conj_helpers = {
   'VBG':(
-    ['VBP'],
-    ['has', 'been'],
-    ['MD','be'],
-    ['VBD'],
-    ['had', 'been']
-  ),
+    ['VBP'], ['has', 'been'], ['MD','be'], ['VBD'], ['had', 'been']
+    ),
   'VBN':(
-    ['has'],
-    ['MD', 'have'],
-    ['had']
-  ),
+    ['has'], ['MD', 'have'], ['had'] ),
   'VB':(
     ['MD']
   )
 }
 
 helper_exceptions = {
-'have':True,
-'had':True,
-'been':True,
-'be':True,
-'has':True
+'have':True, 'had':True, 'been':True, 'be':True, 'has':True 
 }
 
 case_jank = {
-  'VBN':True,
-  'VB':True,
-  'VBG':True
-}
+  'VBN':True, 'VB':True, 'VBG':True }
 
 case_jank_mk_two = {
-  'VBZ':True,
-  'VBD':True,
-  'MD':True
-}
+  'VBZ':True, 'VBD':True, 'MD':True }
 
 ok_verbs = {
-  'have':True,
-  'be':True
-}
+  'have':True, 'be':True, 'had':True }
+
 not_ok_verbs = {
   'keep':True
 }
 
 not_actually_verbs = { #sigh
-  'nosebleed': True,
-  'not a verb': True,
-  'timid': True,
-  'vivid': True,
-}
+  'nosebleed': True, 'not a verb': True, 'timid': True, 'vivid': True }
 
 en_pronoun_exceptions = {
-  'we':True,
-  'you':True,
-  'they':True
-}
+  'we':True, 'you':True, 'they':True }
+
 subject_tense = {
 'plural':(
   ['are'],['were']
@@ -97,31 +57,25 @@ subject_tense = {
 }
 
 nom_pronoun = {
-  'i': True,
-  'he': True,
-  'she': True,
-  'they': True,
-  'we': True
-}
+  'i': True, 'he': True, 'she': True, 'they': True, 'we': True }
 
 acc_pronoun = {
-  'i': ['me'],
-  'he': ['him'],
-  'she': ['her'],
-  'they': ['them'],
-  'we': ['us']
-}
+  'i': ['me'], 'he': ['him'], 'she': ['her'], 'they': ['them'], 'we': ['us'] }
+
 proper_noun_case = {
-  'NNP': False,
-  'NNPS': False
-}
+  'NNP': False, 'NNPS': False }
+
+def sample_list(list_of_something):
+    return list_of_something[random.randrange(0,len(list_of_something),1)]
+
+
 
 def get_obj():
   obj_code = 'PRP'
   while obj_code == 'PRP':
     obj_code = sample_list(pos_categories)
-  print(obj_code)
-  print(proper_noun_case.get(obj_code[0],True))
+  # print(obj_code)
+  # print(proper_noun_case.get(obj_code[0],True))
   if proper_noun_case.get(obj_code[0],True):
     obj = [get_words(obj_code)[0].lower()]
     if nom_pronoun.get(obj[0], False):
@@ -181,8 +135,6 @@ def get_words(word_list):
       result.append(word)
     else:
       with open(''.join([path,word,extension]),'r') as f:
-        # print(word)
-        #note: bug which returns empty string for subj ~1 in 30
         d = f.readlines()
         if word.find('V') == 0:
           word_choice = 'not a verb'
@@ -220,26 +172,30 @@ def v_is_for_verb():
     return verb
 
 def check_for_obj(verb):
-  print(verb)
+  # print(verb)
   obj_bool = (len(verb) > 1 and (verb[-1].find('ing') != -1 and verb[-2].find('ed') != -1))
-  print(obj_bool)
+  # print(obj_bool)
   return obj_bool
 
 def build_indepedent_clause(svo_list):
-  clause = ' '.join(svo_list) + sample_list(['.','?','!','...'])
+  clause = ' '.join(svo_list) + sample_list(['.','?','!','...','.'])
   return only_cap_no_lower(clause)
 
-def main():
+def create_line():
   # test_for_check_for_obj()
   random_verbage = v_is_for_verb()
   flag_for_check = -1
-  if random_verbage.count('VBG') == 1:
+
+  if random_verbage[0].count('VBG') == 1:
     flag_for_check = random_verbage.index('VBG')
-  if random_verbage.count('VBN') == 1:
+  if random_verbage[0].count('VBN') == 1:
     flag_for_check = random_verbage.index('VBN')
+
   all_verbs = get_words(random_verbage)
   subj = determine_subj(random_verbage[0], all_verbs[0])
+
   all_verbs = english_makes_no_sense(subj,all_verbs, flag_for_check)
+
   if check_for_obj(all_verbs):
     return build_indepedent_clause(subj + all_verbs)
   else:
@@ -250,7 +206,7 @@ def main():
 
 
 if __name__ == '__main__':
-  print(main())
+  print(create_line())
 
 
 # conj_helper_dependencies = {
@@ -286,3 +242,14 @@ if __name__ == '__main__':
 #     'adv':
 #   }
 # }
+# def test_for_check_for_obj():
+  # test_one = ['is', 'uncorroborated', 'screenwriting']
+  # test_two = ['has', 'screenwriting']
+
+  # if check_for_obj(test_one):
+  #   print('positive case works')
+
+  # if check_for_obj(test_two):
+  #   print('negative case does not work')
+  # else:
+  #   print('negative case works')
