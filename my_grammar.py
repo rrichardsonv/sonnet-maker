@@ -10,22 +10,18 @@ def sample_list(list_of_something):
 
 coin = (False,True)
 
-# subject_type_dep = {
-#   'i':{
-#     'PC': 'am',
-#     'DC': 'was'
-#   },
-#   'we':{
-#     'PC': 'are',
-#     'DC': 'were'
-#   },
-#   'you':{
-#     'PC': 'are',
-#     'DC': 'were'
-#   }
-# }
+def test_for_check_for_obj():
+  test_one = ['is', 'uncorroborated', 'screenwriting']
+  test_two = ['has', 'screenwriting']
 
-# first_second_pronouns = (['i','am'],['i','was'],['you', 'are'],['you','were'],['we','are'],['we','were'])
+  if check_for_obj(test_one):
+    print('positive case works')
+
+  if check_for_obj(test_two):
+    print('negative case does not work')
+  else:
+    print('negative case works')
+
 first_second_pronouns = (['i'],['you'],['we'])
 
 pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
@@ -79,7 +75,8 @@ not_ok_verbs = {
 not_actually_verbs = { #sigh
   'nosebleed': True,
   'not a verb': True,
-  'timid': True
+  'timid': True,
+  'vivid': True,
 }
 
 en_pronoun_exceptions = {
@@ -99,26 +96,52 @@ subject_tense = {
   )
 }
 
+nom_pronoun = {
+  'i': True,
+  'he': True,
+  'she': True,
+  'they': True,
+  'we': True
+}
+
+acc_pronoun = {
+  'i': ['me'],
+  'he': ['him'],
+  'she': ['her'],
+  'they': ['them'],
+  'we': ['us']
+}
+
+def get_obj():
+  obj_code = 'PRP'
+  while obj_code == 'PRP':
+    obj_code = sample_list(pos_categories)
+  if obj_code[0].find('NNP') == -1:
+    obj = [get_words(obj_code)[0].lower()]
+    if nom_pronoun.get(obj[0], False):
+      return acc_pronoun[obj[0]]
+    else:
+      return obj
+  else:
+    return get_words(obj_code)
+
+
+
 def english_makes_no_sense(subject, verb, flag_for_check):
   if flag_for_check == -1:
-    return subject + verb
+    return verb
   else:
     verb_in_question = verb[flag_for_check]
-    if verb_in_question.find('en') != -1:
-      # if len(verb) > 1:
-      #   proceeding = verb[flag_for_check - 1]
-      #   if proceeding.find('ing') != -1:
-      #     'appealling written'
-      # else:
+    if (verb_in_question.find('en') != -1 and verb_in_question != 'been'):
       if en_pronoun_exceptions.get(subject[0],False):
-        return subject + sample_list(subject_tense['plural']) + verb
+        return sample_list(subject_tense['plural']) + verb
       else:
         if subject[0] == 'i':
-          return subject + sample_list(subject_tense['first_person']) + verb
+          return sample_list(subject_tense['first_person']) + verb
         else:
-          return subject + sample_list(subject_tense['third_person']) + verb
+          return sample_list(subject_tense['third_person']) + verb
     else:
-      return subject + verb
+      return verb
 
 
 def determine_subj(first_verb_code,first_verb):
@@ -154,7 +177,9 @@ def get_words(word_list):
           while not_actually_verbs.get(word_choice, False):
             word_choice = sample_list(d)
         else:
-          word_choice = sample_list(d)
+          word_choice = ['']
+          while word_choice[0].strip() == '':
+            word_choice = sample_list(d)
         result.append(''.join(word_choice).strip())
   return result
 
@@ -182,11 +207,16 @@ def v_is_for_verb():
   else:
     return verb
 
-def check_for_obj():
-  print('We checkin')
+def check_for_obj(verb):
+  print(verb)
+  obj_bool = (len(verb) > 1 and (verb[-1].find('ing') != -1 and verb[-2].find('ed') != -1))
+  print(obj_bool)
+  return obj_bool
+
 
 
 def main():
+  # test_for_check_for_obj()
   random_verbage = v_is_for_verb()
   flag_for_check = -1
   if random_verbage.count('VBG') == 1:
@@ -195,15 +225,19 @@ def main():
     flag_for_check = random_verbage.index('VBN')
   all_verbs = get_words(random_verbage)
   subj = determine_subj(random_verbage[0], all_verbs[0])
-  independent_clause = english_makes_no_sense(subj,all_verbs, flag_for_check)
-  print(independent_clause)
+  all_verbs = english_makes_no_sense(subj,all_verbs, flag_for_check)
+  if check_for_obj(all_verbs):
+    independent_clause = subj + all_verbs
+  else:
+    independent_clause = subj + all_verbs + get_obj()
+  return independent_clause
 
 
 
 
 
 if __name__ == '__main__':
-  print(main())
+  print(' '.join(main()) + '.')
 
 
 # conj_helper_dependencies = {
