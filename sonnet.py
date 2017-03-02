@@ -44,10 +44,16 @@ def main():
   # test_text_list = word_soup(stuff)
   # max_range = len(test_text_list)
   # word_index = random.randrange(0,max_range,1)
-  lines_list = []
-  current_line = my_grammar.create_line()
+  # lines_list = []
+  line_len = 0
+  i = 0
+  while line_len != 10:
+    current_line = my_grammar.create_line()
+    print(''.join(['{}'.format(i),': ',current_line]))
+    line_len = word_soup(current_line)
+    i += 1
   print(current_line)
-  print(word_soup(current_line))
+  # print(line_length)
 
   # sonnet = '''
   #         {}
