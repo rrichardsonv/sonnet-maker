@@ -34,7 +34,7 @@ conj_helpers = {
   'VBN':(
     ['VBP'],
     ['MD', 'VB'],
-    ['VBD', 'VBN']
+    ['VBD']
   ),
   'VB':(
     ['MD']
@@ -47,10 +47,10 @@ case_jank = {
   'VBG':True
 }
 
-def main():
+def v_is_for_verb():
   #first pick a verb
   # verb = sample_tupple(verb_bases)
-  verb = ['VB']
+  verb = sample_tupple(verb_bases)
   #second determine if it can be conjugated
   if case_jank.get(verb[0], False):
     #third flip a coin
@@ -70,6 +70,10 @@ def main():
       return verb
   else:
     return verb
+
+
+def main():
+  return v_is_for_verb()
 
 
 
