@@ -36,11 +36,10 @@ conj_helpers = {
     ['has', 'been'],
     ['MD','be'],
     ['VBD'],
-    ['MD'],
     ['had', 'been']
   ),
   'VBN':(
-    ['VBP'],
+    ['has'],
     ['MD', 'have'],
     ['had']
   ),
@@ -53,7 +52,8 @@ helper_exceptions = {
 'have':True,
 'had':True,
 'been':True,
-'be':True
+'be':True,
+'has':True
 }
 
 case_jank = {
@@ -78,7 +78,8 @@ not_ok_verbs = {
 
 not_actually_verbs = { #sigh
   'nosebleed': True,
-  'not a verb': True
+  'not a verb': True,
+  'timid': True
 }
 
 en_pronoun_exceptions = {
@@ -86,12 +87,38 @@ en_pronoun_exceptions = {
   'you':True,
   'they':True
 }
+subject_tense = {
+'plural':(
+  ['are'],['were']
+  ),
+'first_person':(
+  ['am'], ['was']
+  ),
+'third_person':(
+  ['is'],['was']
+  )
+}
 
-def english_makes_no_sense(subject,verb, flag_for_check):
+def english_makes_no_sense(subject, verb, flag_for_check):
   if flag_for_check == -1:
     return subject + verb
   else:
-    return 'Gotta logic'
+    verb_in_question = verb[flag_for_check]
+    if verb_in_question.find('en') != -1:
+      # if len(verb) > 1:
+      #   proceeding = verb[flag_for_check - 1]
+      #   if proceeding.find('ing') != -1:
+      #     'appealling written'
+      # else:
+      if en_pronoun_exceptions.get(subject[0],False):
+        return subject + sample_list(subject_tense['plural']) + verb
+      else:
+        if subject[0] == 'i':
+          return subject + sample_list(subject_tense['first_person']) + verb
+        else:
+          return subject + sample_list(subject_tense['third_person']) + verb
+    else:
+      return subject + verb
 
 
 def determine_subj(first_verb_code,first_verb):
@@ -155,14 +182,17 @@ def v_is_for_verb():
   else:
     return verb
 
+def check_for_obj():
+  print('We checkin')
+
 
 def main():
   random_verbage = v_is_for_verb()
   flag_for_check = -1
   if random_verbage.count('VBG') == 1:
-    flag_for_check = random_verbage.index('VBG') + 1
+    flag_for_check = random_verbage.index('VBG')
   if random_verbage.count('VBN') == 1:
-    flag_for_check = random_verbage.index('VBN') + 1
+    flag_for_check = random_verbage.index('VBN')
   all_verbs = get_words(random_verbage)
   subj = determine_subj(random_verbage[0], all_verbs[0])
   independent_clause = english_makes_no_sense(subj,all_verbs, flag_for_check)
