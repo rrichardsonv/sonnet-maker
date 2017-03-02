@@ -111,19 +111,27 @@ acc_pronoun = {
   'they': ['them'],
   'we': ['us']
 }
+proper_noun_case = {
+  'NNP': False,
+  'NNPS': False
+}
 
 def get_obj():
   obj_code = 'PRP'
   while obj_code == 'PRP':
     obj_code = sample_list(pos_categories)
-  if obj_code[0].find('NNP') == -1:
+  print(obj_code)
+  print(proper_noun_case.get(obj_code[0],True))
+  if proper_noun_case.get(obj_code[0],True):
     obj = [get_words(obj_code)[0].lower()]
     if nom_pronoun.get(obj[0], False):
       return acc_pronoun[obj[0]]
     else:
       return obj
   else:
-    return get_words(obj_code)
+    obj = get_words(obj_code)
+    return obj
+
 
 
 
@@ -213,7 +221,9 @@ def check_for_obj(verb):
   print(obj_bool)
   return obj_bool
 
-
+def build_indepedent_clause(svo_list):
+  clause = ' '.join(svo_list) + sample_list(['.','?','!','...'])
+  return clause.capitalize()
 
 def main():
   # test_for_check_for_obj()
@@ -227,17 +237,16 @@ def main():
   subj = determine_subj(random_verbage[0], all_verbs[0])
   all_verbs = english_makes_no_sense(subj,all_verbs, flag_for_check)
   if check_for_obj(all_verbs):
-    independent_clause = subj + all_verbs
+    return build_indepedent_clause(subj + all_verbs)
   else:
-    independent_clause = subj + all_verbs + get_obj()
-  return independent_clause
+    return build_indepedent_clause(subj + all_verbs + get_obj())
 
 
 
 
 
 if __name__ == '__main__':
-  print(' '.join(main()) + '.')
+  print(main())
 
 
 # conj_helper_dependencies = {
