@@ -24,9 +24,9 @@ coin = (False,True)
 #   }
 # }
 
-first_second_pronouns = ('i am','i was','you are','you were' 'we are', 'we were')
+first_second_pronouns = (['i','am'],['i','was'],['you', 'are'],['you','were'],['we','are'],['we','were'])
 
-pos_categories = ('NN','NNS','NNP','NNPS','PRP','VBG')
+pos_categories = (['NN'],['NNS'],['NNP'],['NNPS'],['PRP'],['VBG'])
 
 conj_helpers = {
   'VBG':(
@@ -59,17 +59,28 @@ case_jank_mk_two = {
   'MD':True
 }
 
-def determine_subj(first_verb_code):
+ok_verbs = {
+  'have':True,
+  'be':True
+}
+
+def determine_subj(first_verb_code,first_verb):
   if case_jank_mk_two.get(first_verb_code,False):
-    print('All options ok')
+    subj = get_words(sample_list(pos_categories))
   else:
-    print('We need first or second person')
+    # print('We need first or second person')
+    if ok_verbs.get(first_verb,False):
+      subj = sample_list(first_second_pronouns)
+    else:
+      subj = get_words(sample_list(pos_categories))
+  return subj
 
 
 def get_words(word_list):
   result = []
   for word in word_list:
     with open(''.join([path,word,extension]),'r') as f:
+      #note: bug which returns empty string for subj ~1 in 30
       d = f.readlines()
       result.append(''.join(sample_list(d)).strip())
   return result
@@ -100,11 +111,10 @@ def v_is_for_verb():
 
 
 def main():
-  random_verbage = v_is_for_verb()
-  subject_indicator = random_verbage[0]
-  subj_code = determine_subj(subject_indicator)
-  # print(subj_code)
-  return get_words(random_verbage)
+  random_verbage = v_is_for_verb() 
+  all_verbs = get_words(random_verbage)
+  subj = determine_subj(random_verbage[0], all_verbs[0])
+  print(subj + all_verbs)
 
 
 
