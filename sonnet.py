@@ -4,6 +4,7 @@ import re
 import nltk
 import string
 import random
+import my_grammar
 from nltk.corpus import cmudict
 
 d = cmudict.dict()
@@ -33,11 +34,13 @@ def word_soup(data):
   return result
 
 def main():
-  stuff = get_txt(_file_name)
-  test_text_list = word_soup(stuff)
-  max_range = len(test_text_list)
-  word_index = random.randrange(0,max_range,1)
-  lines_tupple = ()
+  # stuff = get_txt(_file_name)
+  # test_text_list = word_soup(stuff)
+  # max_range = len(test_text_list)
+  # word_index = random.randrange(0,max_range,1)
+  lines_list = []
+  my_grammar.create_line()
+  print()
 
   # sonnet = '''
   #         {}
