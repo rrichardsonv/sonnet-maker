@@ -57,14 +57,15 @@ def get_txt(file_name):
 def file_flight_control():
   for code in oe_dict:
     # print(''.join([path,code,extension]))
-    with open(''.join([path,code,extension]),'w') as f:
+    with open(''.join([path,code,extension]),'a') as f:
+      print('\n'.join(oe_dict[code]), file=f)
       #write into the file do I need newlines?
-      # '\n'.join(oe_dict[code])
+      
 
 
 
 def main():
-  # get_txt('2of12.txt')
+  get_txt('2of12.txt')
   file_flight_control()
 
 
