@@ -8,6 +8,9 @@ The main goal of this project is becoming more familiar with python and the func
 
 The secondary goal has been to frustrate myself with how bad computers are at poetry.
 
+### TO DO:
+  1.  So given that sets are actually supported in python I should probably turn all those dicts with key:true into sets...
+
 
 ### Challenges
   1.  minor existential crises at my program being mean to me. It was an easy bugfix but an entire sonnet composed of 'you should die.' was very disconcerting
